@@ -257,7 +257,9 @@ public class SwerveSubsystem extends SubsystemBase
   public Command getAutonomousCommand(String pathName)
   {
     // Create a path following command using AutoBuilder. This will also trigger event markers.
-    return new PathPlannerAuto(pathName);
+    // return new PathPlannerAuto(pathName);
+    // return an autonomous command that drivers forward 0.5m at half power.
+    return driveToDistanceCommand(0.5, 2.0); 
   }
 
   /**
@@ -387,8 +389,7 @@ public class SwerveSubsystem extends SubsystemBase
   public Command driveToDistanceCommand(double distanceInMeters, double speedInMetersPerSecond)
   {
     return run(() -> drive(new ChassisSpeeds(speedInMetersPerSecond, 0, 0)))
-        .until(() -> swerveDrive.getPose().getTranslation().getDistance(new Translation2d(0, 0)) >
-                     distanceInMeters);
+      .withTimeout(distanceInMeters);
   }
 
   /**
