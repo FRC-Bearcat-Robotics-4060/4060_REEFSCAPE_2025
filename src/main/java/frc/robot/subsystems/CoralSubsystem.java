@@ -3,6 +3,9 @@ package frc.robot.subsystems;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 public class CoralSubsystem extends SubsystemBase
 {
@@ -11,6 +14,9 @@ public class CoralSubsystem extends SubsystemBase
 
   public CoralSubsystem()
   {
+    // Reset swerveMax to factory defaults
+    SparkMaxConfig swerveMaxConfig = new SparkMaxConfig();
+    swerveMax.configure(swerveMaxConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
   }
 
   public void eject()
