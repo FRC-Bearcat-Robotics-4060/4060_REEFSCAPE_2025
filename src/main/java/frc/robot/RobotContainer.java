@@ -20,6 +20,7 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import frc.robot.subsystems.CoralSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
+import edu.wpi.first.math.geometry.Rotation3d;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -174,5 +175,10 @@ public class RobotContainer
   public void setMotorBrake(boolean brake)
   {
     drivebase.setMotorBrake(brake);
+  }
+
+  public void resetGyro_inverted()
+  {
+    drivebase.getSwerveDrive().setGyro(new Rotation3d(0, 0, Math.PI));
   }
 }
