@@ -21,7 +21,7 @@ public class CoralSubsystem extends SubsystemBase
 
   public void eject()
   {
-    swerveMax.set(0.5);
+    swerveMax.set(0.15 );
   }
 
   public void stop()
