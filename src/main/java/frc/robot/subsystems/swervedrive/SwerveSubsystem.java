@@ -259,7 +259,7 @@ public class SwerveSubsystem extends SubsystemBase
     // Create a path following command using AutoBuilder. This will also trigger event markers.
     // return new PathPlannerAuto(pathName);
     // return an autonomous command that drivers forward 0.5m at half power.
-    return driveToDistanceCommand(0.5, 2.0); 
+    return driveToDistanceCommand(1.0, 2.0); 
   }
 
   /**
