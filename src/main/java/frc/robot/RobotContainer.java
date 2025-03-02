@@ -159,6 +159,9 @@ public class RobotContainer
       driverXbox.rightBumper().whileTrue(Commands.runEnd(coral::eject, coral::stop, coral));
     }
 
+    NamedCommands.registerCommand("EjectCoral", Commands.run(coral::eject).withTimeout(0.5).finallyDo(coral::stop));
+    NamedCommands.registerCommand("FeedCoral", Commands.run(coral::reverse).withTimeout(1.0).finallyDo(coral::stop));
+    drivebase.setupPathPlanner();
   }
 
   /**

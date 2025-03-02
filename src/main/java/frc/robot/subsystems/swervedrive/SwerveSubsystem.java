@@ -30,6 +30,8 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -76,6 +78,8 @@ public class SwerveSubsystem extends SubsystemBase
    */
   private Vision vision;
 
+  private SendableChooser<Command> autoChooser;
+
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
    *
@@ -111,7 +115,6 @@ public class SwerveSubsystem extends SubsystemBase
       // Stop the odometry thread if we are using vision that way we can synchronize updates better.
       swerveDrive.stopOdometryThread();
     }
-    setupPathPlanner();
   }
 
   /**
@@ -212,6 +215,8 @@ public class SwerveSubsystem extends SubsystemBase
           this
           // Reference to this subsystem to set requirements
                            );
+      autoChooser = AutoBuilder.buildAutoChooser("CrossLine");
+      SmartDashboard.putData("AutoChooser", autoChooser);
 
     } catch (Exception e)
     {
@@ -259,7 +264,8 @@ public class SwerveSubsystem extends SubsystemBase
     // Create a path following command using AutoBuilder. This will also trigger event markers.
     // return new PathPlannerAuto(pathName);
     // return an autonomous command that drivers forward 0.5m at half power.
-    return driveToDistanceCommand(1.75, 2.0).andThen(driveToDistanceCommand(0,0)); 
+    //return driveToDistanceCommand(1.75, 2.0).andThen(driveToDistanceCommand(0,0)); 
+    return autoChooser.getSelected();
   }
 
   /**

@@ -1,11 +1,13 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 public class CoralSubsystem extends SubsystemBase
 {
@@ -16,16 +18,31 @@ public class CoralSubsystem extends SubsystemBase
   {
     // Reset swerveMax to factory defaults
     SparkMaxConfig swerveMaxConfig = new SparkMaxConfig();
+    // Set to brake mode
+    swerveMaxConfig.idleMode(IdleMode.kBrake);
     swerveMax.configure(swerveMaxConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+
+    // Send to the SmartDashboard
+    SmartDashboard.putNumber("CoralMotor", 0.0);
   }
 
   public void eject()
   {
-    swerveMax.set(0.15 );
+    double power = 0.15;
+    swerveMax.set(power );
+    SmartDashboard.putNumber("CoralMotor", power);
+  }
+
+  public void reverse()
+  {
+    double power = -0.1;
+    swerveMax.set(power);
+    SmartDashboard.putNumber("CoralMotor", power);
   }
 
   public void stop()
   {
     swerveMax.stopMotor();
+    SmartDashboard.putNumber("CoralMotor", 0.0);
   }
 }
