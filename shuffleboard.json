@@ -725,6 +725,32 @@
               "_glyph": 148,
               "_showGlyph": false
             }
+          },
+          "3,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/AutoChooser",
+              "_title": "AutoChooser",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "4,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/CoralMotor",
+              "_title": "CoralMotor",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
           }
         }
       }
@@ -794,6 +820,7 @@
             ],
             "content": {
               "_type": "Voltage View",
+              "_source0": "network_table:///SmartDashboard/BatterySim/BatteryVoltage (Volts)",
               "_title": "Voltage View",
               "_glyph": 148,
               "_showGlyph": false,
@@ -802,6 +829,58 @@
               "Range/Center": 0.0,
               "Visuals/Orientation": "HORIZONTAL",
               "Visuals/Number of tick marks": 5
+            }
+          },
+          "4,1": {
+            "size": [
+              3,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/AutoChooser",
+              "_title": "/SmartDashboard/AutoChooser",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "4,0": {
+            "size": [
+              3,
+              1
+            ],
+            "content": {
+              "_type": "Basic FMS Info",
+              "_source0": "network_table:///FMSInfo",
+              "_title": "/FMSInfo",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "10,1": {
+            "size": [
+              3,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/BatterySim/TotalCurrent (Amps)",
+              "_title": "/SmartDashboard/BatterySim/TotalCurrent (Amps)",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "8,1": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/CoralMotor",
+              "_title": "/SmartDashboard/CoralMotor",
+              "_glyph": 148,
+              "_showGlyph": false
             }
           }
         }
