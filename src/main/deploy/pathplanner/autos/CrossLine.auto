@@ -7,13 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Center Place"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "EjectCoral"
+            "pathName": "Cross"
           }
         }
       ]
