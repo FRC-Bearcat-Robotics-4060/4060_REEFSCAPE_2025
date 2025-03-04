@@ -156,6 +156,12 @@ public class SwerveSubsystem extends SubsystemBase
   {
   }
 
+  public void resetAutoChooser()
+  {
+    autoChooser = AutoBuilder.buildAutoChooser("CrossLine");
+    SmartDashboard.putData("AutoChooser", autoChooser);
+  }
+
   /**
    * Setup AutoBuilder for PathPlanner.
    */
@@ -215,8 +221,7 @@ public class SwerveSubsystem extends SubsystemBase
           this
           // Reference to this subsystem to set requirements
                            );
-      autoChooser = AutoBuilder.buildAutoChooser("CrossLine");
-      SmartDashboard.putData("AutoChooser", autoChooser);
+      resetAutoChooser();
 
     } catch (Exception e)
     {
@@ -259,7 +264,7 @@ public class SwerveSubsystem extends SubsystemBase
    * @param pathName PathPlanner path name.
    * @return {@link AutoBuilder#followPath(PathPlannerPath)} path command.
    */
-  public Command getAutonomousCommand(String pathName)
+  public Command getAutonomousCommand()
   {
     // Create a path following command using AutoBuilder. This will also trigger event markers.
     // return new PathPlannerAuto(pathName);
