@@ -157,6 +157,7 @@ public class RobotContainer
       // driverXbox.leftBumper().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
       // While right bumper is held, eject coral, then stop.
       driverXbox.rightBumper().whileTrue(Commands.runEnd(coral::eject, coral::stop, coral));
+      driverXbox.leftBumper().whileTrue(Commands.runEnd(coral::reverse, coral::stop, coral));
     }
 
     NamedCommands.registerCommand("EjectCoral", Commands.run(coral::eject).withTimeout(0.5).finallyDo(coral::stop));

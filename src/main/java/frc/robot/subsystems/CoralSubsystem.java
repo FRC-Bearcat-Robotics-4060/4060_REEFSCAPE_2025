@@ -24,11 +24,12 @@ public class CoralSubsystem extends SubsystemBase
 
     // Send to the SmartDashboard
     SmartDashboard.putNumber("CoralMotor", 0.0);
+    SmartDashboard.putNumber("CoralPower", 0.15);
   }
 
   public void eject()
   {
-    double power = 0.15;
+    double power = SmartDashboard.getNumber("CoralPower", 0.15);
     swerveMax.set(power );
     SmartDashboard.putNumber("CoralMotor", power);
   }
