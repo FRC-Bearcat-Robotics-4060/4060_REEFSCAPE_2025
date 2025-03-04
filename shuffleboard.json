@@ -669,9 +669,7 @@
               "_showGlyph": false,
               "Game/Game": "k2025Reefscape",
               "Visuals/Robot Icon Size": 50.0,
-              "Visuals/Show Outside Circles": false,
-              "Colors/XModules": "#FFFFFFFF",
-              "Colors/OdometryPose": "#FFFFFFFF"
+              "Visuals/Show Outside Circles": false
             }
           },
           "12,3": {
@@ -751,6 +749,32 @@
               "_glyph": 148,
               "_showGlyph": false
             }
+          },
+          "5,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Alerts",
+              "_source0": "network_table:///SmartDashboard/Alerts",
+              "_title": "Alerts",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "6,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/CoralPower",
+              "_title": "CoralPower",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
           }
         }
       }
@@ -779,9 +803,7 @@
               "_showGlyph": false,
               "Game/Game": "k2025Reefscape",
               "Visuals/Robot Icon Size": 50.0,
-              "Visuals/Show Outside Circles": false,
-              "Colors/XModules": "#FFFFFFFF",
-              "Colors/OdometryPose": "#FFFFFFFF"
+              "Visuals/Show Outside Circles": false
             }
           },
           "10,2": {
@@ -879,6 +901,19 @@
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/CoralMotor",
               "_title": "/SmartDashboard/CoralMotor",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "8,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/CoralPower",
+              "_title": "/SmartDashboard/CoralPower",
               "_glyph": 148,
               "_showGlyph": false
             }
