@@ -31,6 +31,10 @@ public final class Constants
 
   public static final double CLIMB_POWER = 0.20;
 
+  public static final int CORAL_LOCK_SERVO_NUMBER = 1;
+  public static final double CORAL_LOCK_SERVO_POSITION_LOCKED = 0.0;
+  public static final double CORAL_LOCK_SERVO_POSITION_UNLOCKED = 1.0;
+
 //  public static final class AutonConstants
 //  {
 //

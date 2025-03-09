@@ -8,11 +8,14 @@ import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import edu.wpi.first.wpilibj.Servo;
 
 public class CoralSubsystem extends SubsystemBase
 {
   // Add a Swerve Max controller for the NEO motor
   private final SparkMax swerveMax = new SparkMax(Constants.CORAL_MOTOR_CAN_ID, SparkMax.MotorType.kBrushless);
+  private final Servo lockServo = new Servo(Constants.CORAL_LOCK_SERVO_NUMBER);
+
   private boolean highSpeed = false;
 
   public CoralSubsystem()
@@ -23,12 +26,25 @@ public class CoralSubsystem extends SubsystemBase
     swerveMaxConfig.idleMode(IdleMode.kBrake);
     swerveMax.configure(swerveMaxConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
+    // Add the locking servo
+    lockDoors();
+
     // Send to the SmartDashboard
     SmartDashboard.putNumber("CoralMotor", 0.0);
     SmartDashboard.putNumber("CoralPower", 0.15);
     SmartDashboard.getNumber("ClimbCoralPower", 0.15);
     SmartDashboard.putNumber("ClimbCoralPower", 0.35);
   
+  }
+
+  public void lockDoors()
+  {
+    lockServo.set(Constants.CORAL_LOCK_SERVO_POSITION_LOCKED);
+  }
+
+  public void unlockDoors()
+  {
+    lockServo.set(Constants.CORAL_LOCK_SERVO_POSITION_UNLOCKED);
   }
 
   public void setHighSpeed(boolean highSpeed)

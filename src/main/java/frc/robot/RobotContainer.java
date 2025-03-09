@@ -23,6 +23,8 @@ import frc.robot.subsystems.*;
 import java.io.File;
 import swervelib.SwerveInputStream;
 import edu.wpi.first.math.geometry.Rotation3d;
+import java.lang.Thread;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -134,7 +136,18 @@ SwerveInputStream driveAngularVelocitySlow = SwerveInputStream.of(drivebase.getS
   {
     slowDriveCommand = !slowDriveCommand;
 
-    // When in slow drive use high power for cower to aid pushing cage through doors
+    if (slowDriveCommand)
+    {
+      // Entering climb mode. Need to eject coral and unlock doors.
+      coral.eject();
+      coral.unlockDoors();
+    } else
+    {
+      // Exiting climb mode. Need to lock doors.
+      coral.lockDoors();
+    }
+
+    // When in slow drive use high power for coral to aid pushing cage through doors
     coral.setHighSpeed(slowDriveCommand);
     setDefaultDriveCommand();
   }
@@ -166,8 +179,12 @@ SwerveInputStream driveAngularVelocitySlow = SwerveInputStream.of(drivebase.getS
         driveDirectAngleKeyboard);
 
     setDefaultDriveCommand();
-    // When the Start button is pressed, toggle the drive command
-    driverXbox.start().onTrue(Commands.runOnce(this::toggleDriveCommand, drivebase));
+    // When the Start button is pressed, toggle the drive command.
+    // If switching to climb mode, this wil eject any coral and unlock the doors.
+    driverXbox.start().onTrue(
+      Commands.runOnce(this::toggleDriveCommand, coral)
+      .andThen(Commands.waitSeconds(0.25))
+      .finallyDo(coral::stop));
 
     setDriveModeNormal();
 
@@ -202,7 +219,8 @@ SwerveInputStream driveAngularVelocitySlow = SwerveInputStream.of(drivebase.getS
     }
 
     // D-Pad up will shut all subsystems down, then climb.
-    driverXbox.povUp().onTrue(Commands.run(climber::start, climber, drivebase, coral, climber));
+    driverXbox.povUp().onTrue(
+      Commands.run(climber::start, climber, drivebase, coral));
 
     // D-Pad down will cancel the commands on all subsystems.
     // Note that the mechanism CANNOT release the ratched itself, so there is no
