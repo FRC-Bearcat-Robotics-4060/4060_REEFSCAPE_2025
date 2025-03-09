@@ -51,5 +51,6 @@ public final class Constants
     // Scales joystick moves. Why would we want this? Maybe to slow down when on a fully charged
     // battery, so the driver won't notice as it degrades?
     public static final double SCALE_CONSTANT = 1.0;
+    public static final double SCALE_CONSTANT_SLOW = 0.1;
   }
 }

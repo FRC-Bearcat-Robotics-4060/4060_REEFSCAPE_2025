@@ -13,6 +13,7 @@ public class CoralSubsystem extends SubsystemBase
 {
   // Add a Swerve Max controller for the NEO motor
   private final SparkMax swerveMax = new SparkMax(Constants.CORAL_MOTOR_CAN_ID, SparkMax.MotorType.kBrushless);
+  private boolean highSpeed = false;
 
   public CoralSubsystem()
   {
@@ -25,11 +26,28 @@ public class CoralSubsystem extends SubsystemBase
     // Send to the SmartDashboard
     SmartDashboard.putNumber("CoralMotor", 0.0);
     SmartDashboard.putNumber("CoralPower", 0.15);
+    SmartDashboard.getNumber("ClimbCoralPower", 0.15);
+    SmartDashboard.putNumber("ClimbCoralPower", 0.35);
+  
+  }
+
+  public void setHighSpeed(boolean highSpeed)
+  {
+    this.highSpeed = highSpeed;
   }
 
   public void eject()
   {
-    double power = SmartDashboard.getNumber("CoralPower", 0.15);
+    double power;
+    if (highSpeed)
+    {
+      power = SmartDashboard.getNumber("CoralPowerHighSpeed", 0.35);
+    }
+    else
+    {
+      power = SmartDashboard.getNumber("CoralPower", 0.15);
+    }
+     
     swerveMax.set(power );
     SmartDashboard.putNumber("CoralMotor", power);
   }

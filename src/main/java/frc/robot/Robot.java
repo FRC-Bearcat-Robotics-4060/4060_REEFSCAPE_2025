@@ -82,6 +82,7 @@ public class Robot extends TimedRobot
     disabledTimer.reset();
     disabledTimer.start();
     m_robotContainer.resetAutoChooser();
+    m_robotContainer.setDriveModeNormal();
   }
 
   @Override

@@ -11,8 +11,10 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
@@ -39,6 +41,8 @@ public class RobotContainer
   // Create coral subsystem
   private final CoralSubsystem coral = new CoralSubsystem();
 
+  private boolean slowDriveCommand = false;
+
   /**
    * Converts driver input into a field-relative ChassisSpeeds that is controlled by angular velocity.
    */
@@ -49,6 +53,15 @@ public class RobotContainer
                                                             .deadband(OperatorConstants.DEADBAND)
                                                             .scaleTranslation(OperatorConstants.SCALE_CONSTANT)
                                                             .allianceRelativeControl(true);
+
+SwerveInputStream driveAngularVelocitySlow = SwerveInputStream.of(drivebase.getSwerveDrive(),
+                                                            () -> driverXbox.getLeftY() * +1,
+                                                            () -> driverXbox.getLeftX() * +1)
+                                                        .withControllerRotationAxis(() -> driverXbox.getRightX() * -0.5
+                                                      )
+                                                        .deadband(OperatorConstants.DEADBAND)
+                                                        .scaleTranslation(OperatorConstants.SCALE_CONSTANT_SLOW)
+                                                        .allianceRelativeControl(true);
 
   /**
    * Clone's the angular velocity input stream and converts it to a fieldRelative input stream.
@@ -100,6 +113,37 @@ public class RobotContainer
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
   }
 
+  void setDefaultDriveCommand()
+  {
+    Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
+    Command driveFieldOrientedClimb = drivebase.driveFieldOriented(driveAngularVelocitySlow); 
+
+    if (slowDriveCommand)
+    {
+      drivebase.setDefaultCommand(driveFieldOrientedClimb);
+    } else
+    {
+      drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
+    }
+
+    SmartDashboard.putBoolean("SlowDriveCommand", slowDriveCommand);
+  }
+
+  private void toggleDriveCommand()
+  {
+    slowDriveCommand = !slowDriveCommand;
+
+    // When in slow drive use high power for cower to aid pushing cage through doors
+    coral.setHighSpeed(slowDriveCommand);
+    setDefaultDriveCommand();
+  }
+
+  public void setDriveModeNormal()
+  {
+    slowDriveCommand = false;
+    setDefaultDriveCommand();
+  }
+
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
    * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary predicate, or via the
@@ -120,13 +164,11 @@ public class RobotContainer
     Command driveSetpointGenKeyboard = drivebase.driveWithSetpointGeneratorFieldRelative(
         driveDirectAngleKeyboard);
 
-    if (RobotBase.isSimulation())
-    {
-      drivebase.setDefaultCommand(driveFieldOrientedDirectAngleKeyboard);
-    } else
-    {
-      drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
-    }
+    setDefaultDriveCommand();
+    // When the Start button is pressed, toggle the drive command
+    driverXbox.start().onTrue(Commands.runOnce(this::toggleDriveCommand, drivebase));
+
+    setDriveModeNormal();
 
     if (Robot.isSimulation())
     {
@@ -136,8 +178,6 @@ public class RobotContainer
     }
     if (DriverStation.isTest())
     {
-      drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity); // Overrides drive command above!
-
       driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
       driverXbox.y().whileTrue(drivebase.driveToDistanceCommand(1.0, 0.2));
       driverXbox.start().onTrue((Commands.runOnce(drivebase::zeroGyro)));
