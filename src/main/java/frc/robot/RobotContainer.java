@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
-import frc.robot.subsystems.CoralSubsystem;
+import frc.robot.subsystems.*;
 import java.io.File;
 import swervelib.SwerveInputStream;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -40,6 +40,7 @@ public class RobotContainer
 
   // Create coral subsystem
   private final CoralSubsystem coral = new CoralSubsystem();
+  private final ClimberSubsystem climber = new ClimberSubsystem();
 
   private boolean slowDriveCommand = false;
 
@@ -53,7 +54,7 @@ public class RobotContainer
                                                             .deadband(OperatorConstants.DEADBAND)
                                                             .scaleTranslation(OperatorConstants.SCALE_CONSTANT)
                                                             .allianceRelativeControl(true);
-
+  
 SwerveInputStream driveAngularVelocitySlow = SwerveInputStream.of(drivebase.getSwerveDrive(),
                                                             () -> driverXbox.getLeftY() * +1,
                                                             () -> driverXbox.getLeftX() * +1)
@@ -199,6 +200,18 @@ SwerveInputStream driveAngularVelocitySlow = SwerveInputStream.of(drivebase.getS
       driverXbox.rightBumper().whileTrue(Commands.runEnd(coral::eject, coral::stop, coral));
       driverXbox.leftBumper().whileTrue(Commands.runEnd(coral::reverse, coral::stop, coral));
     }
+
+    // D-Pad up will shut all subsystems down, then climb.
+    driverXbox.povUp().onTrue(Commands.run(climber::start, climber, drivebase, coral, climber));
+
+    // D-Pad down will cancel the commands on all subsystems.
+    // Note that the mechanism CANNOT release the ratched itself, so there is no
+    // means to un-clamp the climber, This must be done manually. This command is only
+    // useful during testing, when multiple climb attempts wil be made without powering down.
+    driverXbox.povDown().onTrue(
+      Commands.runOnce(() -> drivebase.getCurrentCommand().cancel(), climber)
+      .andThen(Commands.runOnce(climber::stop, climber))
+      .andThen(Commands.runOnce(coral::stop, drivebase)));
 
     NamedCommands.registerCommand("EjectCoral", Commands.run(coral::eject).withTimeout(0.5).finallyDo(coral::stop));
     NamedCommands.registerCommand("FeedCoral", Commands.run(coral::reverse).withTimeout(1.0).finallyDo(coral::stop));

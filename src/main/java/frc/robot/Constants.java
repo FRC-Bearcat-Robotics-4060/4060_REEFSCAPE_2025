@@ -26,6 +26,11 @@ public final class Constants
   // Maximum speed of the robot in meters per second, used to limit acceleration.
 
   public static final int CORAL_MOTOR_CAN_ID = 16;
+  public static final int CLIMB_MOTOR_LEFT = 17;
+  public static final int CLIMB_MOTOR_RIGHT = 18;
+
+  public static final double CLIMB_POWER = 0.20;
+
 //  public static final class AutonConstants
 //  {
 //
