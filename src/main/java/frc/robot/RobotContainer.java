@@ -182,7 +182,7 @@ SwerveInputStream driveAngularVelocitySlow = SwerveInputStream.of(drivebase.getS
     // When the Start button is pressed, toggle the drive command.
     // If switching to climb mode, this wil eject any coral and unlock the doors.
     driverXbox.start().onTrue(
-      Commands.runOnce(this::toggleDriveCommand, coral)
+      Commands.runOnce(this::toggleDriveCommand, drivebase, coral)
       .andThen(Commands.waitSeconds(0.25))
       .finallyDo(coral::stop));
 
