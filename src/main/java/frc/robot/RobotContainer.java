@@ -252,9 +252,10 @@ SwerveInputStream driveAngularVelocitySlow = SwerveInputStream.of(drivebase.getS
     drivebase.setMotorBrake(brake);
   }
 
-  public void stopCoral()
+  public void stop()
   {
     coral.stop();
+    climber.stop();
   }
 
   public void setClimberBrake(boolean brake)

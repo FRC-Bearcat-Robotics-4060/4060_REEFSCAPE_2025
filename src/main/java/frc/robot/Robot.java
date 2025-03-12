@@ -82,7 +82,7 @@ public class Robot extends TimedRobot
     m_robotContainer.setMotorBrake(true);
     m_robotContainer.setClimberBrake(true);
 
-    m_robotContainer.stopCoral();
+    m_robotContainer.stop();
 
     disabledTimer.reset();
     disabledTimer.start();
