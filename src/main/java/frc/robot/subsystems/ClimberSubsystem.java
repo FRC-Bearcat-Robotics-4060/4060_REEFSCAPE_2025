@@ -14,7 +14,7 @@ public class ClimberSubsystem extends SubsystemBase
 {
   // Add a Swerve Max controller for the NEO motor
   private final SparkMax climberMotor_Main = new SparkMax(Constants.CLIMB_MOTOR_LEFT, SparkMax.MotorType.kBrushless);
-  private final SparkMax climberMotor_Followe = new SparkMax(Constants.CLIMB_MOTOR_RIGHT, SparkMax.MotorType.kBrushless);
+  private final SparkMax climberMotor_Follower = new SparkMax(Constants.CLIMB_MOTOR_RIGHT, SparkMax.MotorType.kBrushless);
 
   public ClimberSubsystem()
   {
@@ -27,7 +27,7 @@ public class ClimberSubsystem extends SubsystemBase
     climberMotor_Main.configure(swerveMaxConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     swerveMaxConfig.follow(Constants.CLIMB_MOTOR_LEFT);
-    climberMotor_Followe.configure(swerveMaxConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    climberMotor_Follower.configure(swerveMaxConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   public void start()
