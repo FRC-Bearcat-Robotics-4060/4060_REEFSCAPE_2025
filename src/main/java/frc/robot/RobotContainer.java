@@ -218,9 +218,11 @@ SwerveInputStream driveAngularVelocitySlow = SwerveInputStream.of(drivebase.getS
       driverXbox.leftBumper().whileTrue(Commands.runEnd(coral::reverse, coral::stop, coral));
     }
 
-    // D-Pad up will shut all subsystems down, then climb.
+    // D-Pad up will climb for 8 seconds, then stop movement and claim all subsystems to block further interation.
     driverXbox.povUp().onTrue(
-      Commands.run(climber::start, climber, drivebase, coral));
+      Commands.run(climber::start, climber, drivebase, coral)
+      .withTimeout(8)
+      .andThen(Commands.run(climber::stop, climber, drivebase, coral)));
 
     // D-Pad down will cancel the commands on all subsystems.
     // Note that the mechanism CANNOT release the ratched itself, so there is no
