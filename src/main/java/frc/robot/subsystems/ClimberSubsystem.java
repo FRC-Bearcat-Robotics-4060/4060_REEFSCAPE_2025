@@ -16,18 +16,41 @@ public class ClimberSubsystem extends SubsystemBase
   private final SparkMax climberMotor_Main = new SparkMax(Constants.CLIMB_MOTOR_LEFT, SparkMax.MotorType.kBrushless);
   private final SparkMax climberMotor_Follower = new SparkMax(Constants.CLIMB_MOTOR_RIGHT, SparkMax.MotorType.kBrushless);
 
+  private final SparkMaxConfig swerveMaxConfig_Main = new SparkMaxConfig();
+  private final SparkMaxConfig swerveMaxConfig_Follower = new SparkMaxConfig();
+
   public ClimberSubsystem()
   {
-    // Reset swerveMax to factory defaults
-    SparkMaxConfig swerveMaxConfig = new SparkMaxConfig();
     // Set to brake mode
-    final int  Amps_Stall = 30;
-    final int  Amps_Free = 60;
-    swerveMaxConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(Amps_Stall, Amps_Free);
-    climberMotor_Main.configure(swerveMaxConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    final int Amps_Stall = 30;
+    final int Amps_Free = 60;
 
-    swerveMaxConfig.follow(Constants.CLIMB_MOTOR_LEFT);
-    climberMotor_Follower.configure(swerveMaxConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    swerveMaxConfig_Main.idleMode(IdleMode.kBrake)
+                        .smartCurrentLimit(Amps_Stall, Amps_Free);
+    climberMotor_Main.configure(swerveMaxConfig_Main, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+    swerveMaxConfig_Follower.idleMode(IdleMode.kBrake)
+                            .smartCurrentLimit(Amps_Stall, Amps_Free)
+                            .follow(Constants.CLIMB_MOTOR_LEFT);
+    climberMotor_Follower.configure(swerveMaxConfig_Follower, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+  }
+
+  public void setBrake()
+  {
+    swerveMaxConfig_Main.idleMode(IdleMode.kBrake);
+    swerveMaxConfig_Follower.idleMode(IdleMode.kBrake);
+
+    climberMotor_Main.configure(swerveMaxConfig_Main, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+    climberMotor_Follower.configure(swerveMaxConfig_Follower, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+  }
+
+  public void setCoast()
+  {
+    swerveMaxConfig_Main.idleMode(IdleMode.kCoast);
+    swerveMaxConfig_Follower.idleMode(IdleMode.kCoast);
+
+    climberMotor_Main.configure(swerveMaxConfig_Main, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+    climberMotor_Follower.configure(swerveMaxConfig_Follower, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
   }
 
   public void start()

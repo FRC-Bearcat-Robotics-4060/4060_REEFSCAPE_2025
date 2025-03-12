@@ -78,7 +78,12 @@ public class Robot extends TimedRobot
   @Override
   public void disabledInit()
   {
+    // Lock motors temporarily when disabled to stop the robot quickly
     m_robotContainer.setMotorBrake(true);
+    m_robotContainer.setClimberBrake(true);
+
+    m_robotContainer.stopCoral();
+
     disabledTimer.reset();
     disabledTimer.start();
     m_robotContainer.resetAutoChooser();
@@ -88,9 +93,11 @@ public class Robot extends TimedRobot
   @Override
   public void disabledPeriodic()
   {
+    // After a few seconds, disable motor brakes so the motor can be easily moved
     if (disabledTimer.hasElapsed(Constants.DrivebaseConstants.WHEEL_LOCK_TIME))
     {
       m_robotContainer.setMotorBrake(false);
+      m_robotContainer.setClimberBrake(false);
       disabledTimer.stop();
       disabledTimer.reset();
     }
@@ -104,7 +111,10 @@ public class Robot extends TimedRobot
   {
     m_robotContainer.setMotorBrake(true);
 
-    m_robotContainer.resetGyro_inverted();
+    // Brake is needed to prevent climber "fingers" from falling during match.
+    m_robotContainer.setClimberBrake(true);
+
+    // m_robotContainer.resetGyro_inverted();
     
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
@@ -137,6 +147,8 @@ public class Robot extends TimedRobot
     {
       CommandScheduler.getInstance().cancelAll();
     }
+
+    m_robotContainer.setClimberBrake(true);
   }
 
   /**

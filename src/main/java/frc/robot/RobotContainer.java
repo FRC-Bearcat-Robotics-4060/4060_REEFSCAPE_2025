@@ -252,6 +252,22 @@ SwerveInputStream driveAngularVelocitySlow = SwerveInputStream.of(drivebase.getS
     drivebase.setMotorBrake(brake);
   }
 
+  public void stopCoral()
+  {
+    coral.stop();
+  }
+
+  public void setClimberBrake(boolean brake)
+  {
+    if (brake)
+    {
+      climber.setBrake();
+    } else
+    {
+      climber.setCoast();
+    }
+  }
+
   public void resetGyro_inverted()
   {
     drivebase.getSwerveDrive().setGyro(new Rotation3d(0, 0, Math.PI));
