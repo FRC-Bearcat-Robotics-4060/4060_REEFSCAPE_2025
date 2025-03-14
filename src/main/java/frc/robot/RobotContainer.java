@@ -235,6 +235,9 @@ SwerveInputStream driveAngularVelocitySlow = SwerveInputStream.of(drivebase.getS
 
     NamedCommands.registerCommand("EjectCoral", Commands.run(coral::eject).withTimeout(0.5).finallyDo(coral::stop));
     NamedCommands.registerCommand("FeedCoral", Commands.run(coral::reverse).withTimeout(1.0).finallyDo(coral::stop));
+    NamedCommands.registerCommand("DriveToReef_Center", drivebase.driveToDistanceCommand(1.75, 2.0));
+    NamedCommands.registerCommand("CrossLine", drivebase.driveToDistanceCommand(2.0, 1.0));
+    NamedCommands.registerCommand("SetStartingPose", Commands.runOnce(drivebase::setStartingPose));
     drivebase.setupPathPlanner();
   }
 
